@@ -125,3 +125,12 @@ git push -u origin master
 
 * 以上步骤第一遍完成后，后面就不需要做了
 
+* 其他电脑的使用
+
+```bash
+git clone git@github.com:blanker/hexo.git --recursive
+cd hexo
+npm install -g hexo-cli
+
+```
+
