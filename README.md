@@ -99,7 +99,7 @@ $ hexo server
 # Next主题使用
 
 ```bash
-git clone https://github.com/iissnan/hexo-theme-next themes/next
+git submodule add https://github.com/theme-next/hexo-theme-next.git themes/next
 ```
 
 修改配置
@@ -115,7 +115,7 @@ theme: next
 
 ```bash
 git init
-git submodule add https://github.com/iissnan/hexo-theme-next themes/next
+git submodule add https://github.com/theme-next/hexo-theme-next.git themes/next
 git add .
 git commit -m 'init'
 
