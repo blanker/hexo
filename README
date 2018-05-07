@@ -116,6 +116,12 @@ theme: next
 ```bash
 git init
 git submodule add https://github.com/iissnan/hexo-theme-next themes/next
+git add .
+git commit -m 'init'
+
 git remote add origin git@github.com:blanker/hexo.git
 git push -u origin master
 ```
+
+* 以上步骤第一遍完成后，后面就不需要做了
+
