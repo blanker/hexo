@@ -1,16 +1,23 @@
 ---
 title: 《Effective Java 3rd Edition》第2章-第一条 考虑使用静态工厂方法代替构造方法 
 date: 2018-05-13 22:33:01
-tags: effective java item  static factory method constrauctor
+categories:
+    - Effective Java 3rd edition
+tags: 
+    - effective 
+    - java 
+    - static factory method 
+    - constrauctor
 ---
 
 # Chapter 2. Creating and Destroying Objects
 
 > THIS chapter concerns creating and destroying objects: when and how to create them, when and how to avoid creating them, how to ensure they are destroyed in a timely manner, and how to manage any cleanup actions that must precede their destruction.
 
+<!-- more -->
+
 # 第二章 创建和销毁对象
-本章涉及创建和销毁对象的方方面面：什么时候创建对象，怎样创建对象，怎样避免创建对象
-；怎样确保在适当的时机销毁对象，并且在销毁前做好清理工作。
+本章涉及创建和销毁对象的方方面面：什么时候创建对象，怎样创建对象，怎样避免创建对象；怎样确保在适当的时机销毁对象，并且在销毁前做好清理工作。
 
 
 ## Item 1: Consider static factory methods instead of constructors

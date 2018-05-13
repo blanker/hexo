@@ -1,10 +1,17 @@
 ---
 title: 《Effective Java 3rd Edition》第1章-简介 
 date: 2018-05-07 21:08:01
-tags: effective java introduction
+categories:
+    - Effective Java 3rd edition
+tags: 
+    - effective 
+    - java 
+    - introduction
 ---
 
 本书设计的目的是帮助你高效使用Java程序语言和基本类库：java.lang，java.util，java.io这些包以及它们的子包，比如java.util.concurrent并发包和java.util.function函数式包，其他的类库讨论次数太多了。
+
+<!-- more -->
 
 本书包含90个条目，每个条目描述一个规则，最优秀和最有经验的程序员普遍认为，寻求规则的实践活动是非常有益的。这些规则松散地分布于11个章节中，每个章节涵盖一个软件设计的的主题。本书并不要求从头到尾阅读：每个条目或多或少都是独立成篇的。条目之间存在大量的相互引用，因此你可以很轻松地规划你的学习旅程。
 
