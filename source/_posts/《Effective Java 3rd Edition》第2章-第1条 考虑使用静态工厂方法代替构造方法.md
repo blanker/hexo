@@ -1,5 +1,5 @@
 ---
-title: 《Effective Java 3rd Edition》第2章-第一条 考虑使用静态工厂方法代替构造方法 
+title: 《Effective Java 3rd Edition》第2章-第1条 考虑使用静态工厂方法代替构造方法 
 date: 2018-05-13 22:33:01
 categories:
     - Effective Java 3rd edition
