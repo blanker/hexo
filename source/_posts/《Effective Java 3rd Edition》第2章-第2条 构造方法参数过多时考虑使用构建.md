@@ -78,9 +78,9 @@ NutritionFacts cocaCola =new NutritionFacts(240, 8, 100, 0, 35, 27);
 
 一般来说，这样调用构造方法的时候，会有一些你不想赋值的参数，但你又不得不传入一个值，比如在上面的代码中，我们给fat参数传了一个0值。只有六个参数的时候，这种情况看起来还不太糟，但是等到参数数量不断增长，情况很快就失去控制了。
 
-> In short, the telescoping constructor pattern works, but it is hard to write client code when there are many parameters, and harder still to read it. The reader is left wondering what all those values mean and must carefully count parameters to find out. Long sequences of identically typed parameters can cause subtle bugs. If the client accidentally reverses two such parameters, the compiler won’t complain, but the program will misbehave at runtime (Item 51).
+> In short, **the telescoping constructor pattern works, but it is hard to write client code when there are many parameters, and harder still to read it.** The reader is left wondering what all those values mean and must carefully count parameters to find out. Long sequences of identically typed parameters can cause subtle bugs. If the client accidentally reverses two such parameters, the compiler won’t complain, but the program will misbehave at runtime (Item 51).
 
-简单来说，伸缩构造方法模式能解决问题，但是参数数量很多的时候，编写客户端代码就变得困难了，并且代码阅读起来更困难。读者得弄清楚所有这些值的含义，并且需要小心计数来识别每个参数。一长串类型相同的参数可能会引发不易察觉的错误，假如客户端不小心颠倒了两个这样的参数，编译器并不会报错，但是在运行期会得到不一样的结果（第51条）。
+简单来说，**伸缩构造方法模式能解决问题，但是参数数量很多的时候，编写客户端代码就变得困难了，并且代码阅读起来更困难。** 读者得弄清楚所有这些值的含义，并且需要小心计数来识别每个参数。一长串类型相同的参数可能会引发不易察觉的错误，假如客户端不小心颠倒了两个这样的参数，编译器并不会报错，但是在运行期会得到不一样的结果（第51条）。
 
 > A second alternative when you’re faced with many optional parameters in a constructor is the JavaBeans pattern, in which you call a parameterless constructor to create the object and then call setter methods to set each required parameter and each optional parameter of interest:
 
@@ -122,9 +122,9 @@ cocaCola.setSodium(35);
 cocaCola.setCarbohydrate(27);
 ```
 
-> Unfortunately, the JavaBeans pattern has serious disadvantages of its own. Because construction is split across multiple calls, a JavaBean may be in an inconsistent state partway through its construction. The class does not have the option of enforcing consistency merely by checking the validity of the constructor parameters. Attempting to use an object when it’s in an inconsistent state may cause failures that are far removed from the code containing the bug and hence difficult to debug. A related disadvantage is that the JavaBeans pattern precludes the possibility of making a class immutable (Item 17) and requires added effort on the part of the programmer to ensure thread safety.
+> Unfortunately, the JavaBeans pattern has serious disadvantages of its own. Because construction is split across multiple calls, **a JavaBean may be in an inconsistent state partway through its construction.** The class does not have the option of enforcing consistency merely by checking the validity of the constructor parameters. Attempting to use an object when it’s in an inconsistent state may cause failures that are far removed from the code containing the bug and hence difficult to debug. A related disadvantage is that **the JavaBeans pattern precludes the possibility of making a class immutable** (Item 17) and requires added effort on the part of the programmer to ensure thread safety.
 
-不过，JavaBeans也有它本身严重的问题，由于对象构造过程被拆分成了多次调用，一个JavaBean在创建过程中可能处于一种中间的不一致状态。仅仅通过检查构造器参数的有效性，类也不能强制使对象处于一致性状态。使用一个处于非一致性状态下的对象可能引起错误，而程序失败的地方，和包含错误的代码相隔太远，以至于难以进行调试。JavaBeans模式另一个相关的问题是，使用该模式没法构建不可变类，并且在多线程环境下程序员必须加倍小心以确保线程安全。
+不过，JavaBeans也有它本身严重的问题，由于对象构造过程被拆分成了多次调用，**JavaBean在创建过程中可能处于一种中间的不一致状态。** 仅仅通过检查构造器参数的有效性，类也不能强制使对象处于一致性状态。使用一个处于非一致性状态下的对象可能引起错误，而程序失败的地方，和包含错误的代码相隔太远，以至于难以进行调试。JavaBeans模式另一个相关的问题是，**使用该模式没法构建不可变类**，并且在多线程环境下程序员必须加倍小心以确保线程安全。
 
 > It is possible to reduce these disadvantages by manually “freezing” the object when its construction is complete and not allowing it to be used until frozen, but this variant is unwieldy and rarely used in practice.
 
@@ -198,17 +198,17 @@ NutritionFacts cocaCola = new NutritionFacts.Builder(240, 8)
         .calories(100).sodium(35).carbohydrate(27).build();
 ```
 
-> This client code is easy to write and, more importantly, easy to read. The Builder pattern simulates named optional parameters as found in Python and Scala.
+> This client code is easy to write and, more importantly, easy to read. **The Builder pattern simulates named optional parameters** as found in Python and Scala.
 
-这样的代码易于编写，更重要的是，易于阅读。构建器模式模仿的是Python和Scala语言中的命名可选参数特性。
+这样的代码易于编写，更重要的是，易于阅读。构建器模式模仿的是Python和Scala语言中的 **命名可选参数特性**。
 
 > Validity checks were omitted for brevity. To detect invalid parameters as soon as possible, check parameter validity in the builder’s constructor and methods. Check invariants involving multiple parameters in the constructor invoked by the build method. To ensure these invariants against attack, do the checks on object fields after copying parameters from the builder (Item 50). If a check fails, throw an IllegalArgumentException (Item 72) whose detail message indicates which parameters are invalid (Item 75).
 
 为了保持简洁，此处省略了有效性检查。为尽早检测到无效参数，可以在构建器的构造方法和setter方法中做参数有效性检查，在build方法中调用的构造方法中做涉及到多个参数的不变性检查。为了确保这些不变性不会受到破坏，从构建器复制参数到对象后，需要对对象字段做检查。一旦检查失败，就抛出一个IllegalArgumentException异常，该异常的详细消息表明了哪个参数是无效的。
 
-> The Builder pattern is well suited to class hierarchies. Use a parallel hierarchy of builders, each nested in the corresponding class. Abstract classes have abstract builders; concrete classes have concrete builders. For example, consider an abstract class at the root of a hierarchy representing various kinds of pizza:
+> **The Builder pattern is well suited to class hierarchies.** Use a parallel hierarchy of builders, each nested in the corresponding class. Abstract classes have abstract builders; concrete classes have concrete builders. For example, consider an abstract class at the root of a hierarchy representing various kinds of pizza:
 
-对于具有层次关系的类来说，构建器模式能进行很好的适配。可以使用一个平行层次结构的构建器，每个构建器嵌套在对应的类里。抽象类使用抽象构建器，具体类使用具体的构建器。举个例子，假设有一个抽象的根类，代表各种各样的披萨：
+**对于具有层次关系的类来说，构建器模式能进行很好的适配。** 可以使用一个平行层次结构的构建器，每个构建器嵌套在对应的类里。抽象类使用抽象构建器，具体类使用具体的构建器。举个例子，假设有一个抽象的根类，代表各种各样的披萨：
 
 ```java
 // Builder pattern for class hierarchies
@@ -316,6 +316,6 @@ Calzone calzone = new Calzone.Builder()
 
 构建器模式也有它的缺点。为了创建对象，必须先创建它的构建器，虽然在实际使用时，创建构建器的成本不太引人注目，但在比较注重性能的场景中，这可能会成为问题。另外，和伸缩构造方法比起来，构建器模式要显得冗长很多，所以参数较多的时候使用它才有价值，也就是说，有四个以上参数的时候。但是应该时刻记住，类在将来可能会添加更多参数。如果一开始使用的是构造方法或静态工厂方法，等到类的参数数量发展到失去控制，此时切换到构建器模式，废弃的构造方法和静态工厂方法就像疼痛的大拇指一样引人注目。因此，通常更好的做法是一开始就使用构建器。
 
-> In summary, the Builder pattern is a good choice when designing classes whose constructors or static factories would have more than a handful of parameters, especially if many of the parameters are optional or of identical type. Client code is much easier to read and write with builders than with telescoping constructors, and builders are much safer than JavaBeans.
+> In summary, **the Builder pattern is a good choice when designing classes whose constructors or static factories would have more than a handful of parameters**, especially if many of the parameters are optional or of identical type. Client code is much easier to read and write with builders than with telescoping constructors, and builders are much safer than JavaBeans.
 
-总结：在设计类的时候，如果其构造方法或静态工厂方法拥有大量参数，使用构建器模式是个不错的选择，尤其是当很多参数值是可选的，或者很多参数类型相同的时候。相比于伸缩构造方法，使用构建器模式的客户端代码更容易阅读和编写，并且比JavaBeans模式更安全。
+总结：**在设计类的时候，如果其构造方法或静态工厂方法拥有大量参数，使用构建器模式是个不错的选择** ，尤其是当很多参数值是可选的，或者很多参数类型相同的时候。相比于伸缩构造方法，使用构建器模式的客户端代码更容易阅读和编写，并且比JavaBeans模式更安全。
