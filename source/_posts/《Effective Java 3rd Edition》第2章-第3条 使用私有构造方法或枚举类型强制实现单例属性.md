@@ -22,7 +22,7 @@ tags:
 
 >    There are two common ways to implement singletons. Both are based on keeping the constructor private and exporting a public static member to provide access to the sole instance. In one approach, the member is a final field:
 
-实现单例的方法通常有两种，都是基于私有构造方法，并对外暴露一个公开的静态成员来访问唯一的那个实例。在其中一种实现中，静态成员是一个final修饰的字段：
+实现单例的方法通常有两种，它们的都是基于私有构造方法，并对外暴露一个公开的静态成员来访问唯一的那个实例。在其中一种实现中，静态成员是一个final修饰的字段：
 
 ```java
 // Singleton with public final field
@@ -36,7 +36,7 @@ public class Elvis {
 
 >    The private constructor is called only once, to initialize the public static final field Elvis.INSTANCE. The lack of a public or protected constructor guaranttees a “monoelvistic” universe: exactly one Elvis instance will exist once the Elvis class is initialized—no more, no less. Nothing that a client does can change this, with one caveat: a privileged client can invoke the private constructor reflectively (Item 65) with the aid of the AccessibleObject.setAccessible method. If you need to defend against this attack, modify the constructor to make it throw an exception if it’s asked to create a second instance.
     
-要初始化公开的静态最终字段Elvis.INSTANCE.，私有构造方法只会被调用一次。由于没有公开的或受保护的构造方法，可以确保一个"monoelvistic"世界：一旦Elvis类被初始化，只会存在一个Elvis实例，不多也不少。客户端没法改变这一点，不过有一点需要注意，获得授权的客户端借助AccessibleObject.setAccessible方法，通过反射可以调用私有构造方法。如果想要防御这种攻击，可以修改构造方法，当被请求创建第二个实例的时候，就抛出异常。
+要初始化公开的static final字段Elvis.INSTANCE，私有构造方法只会被调用一次。由于没有公开的或受保护的构造方法，可以确保这是一个"单一"世界：一旦Elvis类被初始化，只会存在一个Elvis实例，不多也不少。客户端没法改变这一点，不过有一点需要注意，获得授权的客户端借助AccessibleObject.setAccessible方法，通过反射可以调用私有构造方法。如果想要防御这种攻击，可以修改构造方法，当被请求创建第二个实例的时候，就抛出异常。
 
 >    In the second approach to implementing singletons, the public member is a static factory method:
 
@@ -64,11 +64,11 @@ public class Elvis {
 
 >    One advantage of the static factory approach is that it gives you the flexibility to change your mind about whether the class is a singleton without changing its API. The factory method returns the sole instance, but it could be modified to return, say, a separate instance for each thread that invokes it. A second advantage is that you can write a generic singleton factory if your application requires it (Item 30). A final advantage of using a static factory is that a method reference can be used as a supplier, for example Elvis::instance is a Supplier<Elvis>. Unless one of these advantages is relevant, the public field appproach is preferable.
     
-使用静态工厂方法实现单例的一个优点是，它非常灵活，将来你想改变主意决定该类还是不是单例的时候，是不需要去修改API的。现在的工厂方法返回那个唯一的实例，但是可以把它修改成为每个调用该方法线程分别返回一个实例。第二个好处是，如果应用有需要，你可以编写一个支持泛型的单例工厂方法。使用静态工厂方法的最后一个好处是，可以把方法引用用作生产者，比如Elvis::instance就是一个Supplier<Elvis>。除非这些好处有用处，否则应首选使用公开字段实现单例。
+使用静态工厂方法实现单例的一个优点是，它非常灵活，将来你想改变主意决定该类还是不是单例的时候，并不需要修改API。现在的工厂方法返回那个唯一的实例，但是将来可以把它修改为给每个调用该方法的线程分别返回一个实例。第二个好处是，如果应用有需要，你可以编写一个支持泛型的单例工厂方法。使用静态工厂方法的最后一个好处是，可以把方法引用用作生产者，比如Elvis::instance就是一个Supplier<Elvis>。除非的确用到这些好处，否则应首选使用公开字段实现单例。
 
 >    To make a singleton class that uses either of these approaches serializable (Chapter 12), it is not sufficient merely to add implements Serializable to its declaration. To maintain the singleton guarantee, declare all instance fields transient and provide a readResolve method (Item 89). Otherwise, each time a serialized instance is deserialized, a new instance will be created, leading, in the case of our example, to spurious Elvis sightings. To prevent this from happening, add this readResolve method to the Elvis class:
 
-要让两种实现的单例类可序列化（第12章），仅仅在类的声明上添加实现Serializable接口是不够的，为了保证单例，应该用transient修饰所有的实例字段，并提供一个readResolve方法（第89条），否则的话，每次序列化的实例被反序列化的时候，都会创建一个新的实例，应用的我们的例子里面，就会导致错误的Elvis。为避免这种情况，需要给Elvis类添加readResolve方法：
+要让两种实现的单例类可序列化（第12章），仅仅在类的声明上添加实现Serializable接口是不够的，为了保证单例，应该用transient修饰所有的实例字段，并提供一个readResolve方法（第89条），否则的话，每次序列化的实例被反序列化的时候，都会创建一个新的实例，应用到我们的例子里面，就会导致出现错误的多Elvis实例。为避免这种情况，需要给Elvis类添加readResolve方法：
 
 ```java
 // readResolve method to preserve singleton property
